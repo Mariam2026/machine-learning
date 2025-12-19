@@ -7,7 +7,7 @@ import numpy as np
 from util import extract_features
 from rejection import svm_is_unknown_from_probs, knn_is_unknown_from_mean_dist
 
-#LABELs
+#  LABELS 
 LABELS = {
     0: 'Cardboard',
     1: 'Glass',
@@ -18,7 +18,7 @@ LABELS = {
     6: 'Unknown'
 }
 
-#  FULL OBJECT (HAND INCLUDED) 
+#  FULL OBJECT 
 def get_center_object_roi(frame, box_size=200):
     """
     Crop a fixed-size box in the middle of the frame.
@@ -63,10 +63,10 @@ def run_live(model_path, scaler_path, svm_thr=0.55, knn_thr=1.0, camera_idx=0, b
 
         display_frame = frame.copy()
 
-        # FIXED CENTER ROI
+        # FIXED CENTER ROI 
         white_frame, bbox = get_center_object_roi(frame, box_size=box_size)
 
-        # FEATURES
+        # FEATURES 
         img_rgb = cv2.cvtColor(white_frame, cv2.COLOR_BGR2RGB)
         img_resized = cv2.resize(img_rgb, (256, 256))
         feat = extract_features(img=img_resized)
@@ -75,7 +75,7 @@ def run_live(model_path, scaler_path, svm_thr=0.55, knn_thr=1.0, camera_idx=0, b
         pred_label = "Unknown"
         conf = 0.0
 
-        # PREDICTION
+        # PREDICTION 
         if is_svm:
             probs = model.predict_proba(feat_s)[0]
             pred = int(model.predict(feat_s)[0])
@@ -91,12 +91,12 @@ def run_live(model_path, scaler_path, svm_thr=0.55, knn_thr=1.0, camera_idx=0, b
             pred_label = LABELS[6] if is_unk else LABELS[pred]
             conf = max(0.0, 1.0 - mean_dist / (knn_thr + 1e-6))
 
-        # FPS
+        # FPS 
         now = time.time()
         fps = 0.9 * fps + 0.1 * (1.0 / max(now - prev, 1e-6))
         prev = now
 
-        # DISPLAY
+        # DISPLAY 
         text = f"{pred_label} ({conf:.2f}) FPS:{fps:.1f}"
         cv2.putText(display_frame, text, (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
