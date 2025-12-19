@@ -3,7 +3,7 @@ import numpy as np
 from skimage.feature import local_binary_pattern
 import random
 
-# ---------- AUGMENTATIONS ----------
+# AUGMENTATIONS
 def augment_image(img):
     """Apply mild safe augmentations for waste images."""
     if random.random() < 0.5:
@@ -17,7 +17,7 @@ def augment_image(img):
     img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
     return img
 
-# ---------- FEATURE EXTRACTION ----------
+# FEATURE EXTRACTION
 def extract_features(image_path=None, img=None, resize_dim=(256, 256), augment=False):
     if img is None:
         if image_path is None:
@@ -61,7 +61,7 @@ def extract_features(image_path=None, img=None, resize_dim=(256, 256), augment=F
         feats.append(np.mean(channel))
         feats.append(np.var(channel))
 
-    # ---------- ADDED: Shape features (glass / trash support) ----------
+    
 
     contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 

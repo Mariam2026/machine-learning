@@ -12,7 +12,7 @@ import cv2
 import random
 import tempfile
 
-# ---------- AUGMENTATION FUNCTIONS ----------
+# AUGMENTATION FUNCTIONS
 def augment_image(img):
     """Apply random augmentation: flip, rotate, scale, brightness."""
     if random.random() < 0.5:
@@ -34,7 +34,7 @@ def extract_features_from_array(img_array):
     os.remove(tmp_path)
     return feats
 
-# ---------- DATA LOADING ----------
+# DATA LOADING
 def load_dataset(base_path):
     X, y = [], []
     class_map = {}
@@ -54,7 +54,7 @@ def load_dataset(base_path):
                 print(f"[INFO] Processed {i}/{len(imgs)} images in class '{cls}'")
     return np.array(X), np.array(y), class_map, classes
 
-# ---------- TRAINING AUGMENTATION ----------
+# TRAINING AUGMENTATION
 def augment_training_set(X_train, y_train, base_path, classes, target_per_class):
     X_aug, y_aug = [], []
     for idx, cls in enumerate(classes):
@@ -82,7 +82,7 @@ def augment_training_set(X_train, y_train, base_path, classes, target_per_class)
     y_train = np.hstack([y_train, np.array(y_aug)])
     return X_train, y_train
 
-# ---------- MAIN ----------
+# MAIN
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', required=True, help='Path to dataset folder')
@@ -111,7 +111,7 @@ def main():
     X_train = scaler.fit_transform(X_train)
     X_val = scaler.transform(X_val)
 
-    # ---------- SVM ----------
+    # SVM
     svm = SVC(
         kernel=args.kernel,
         C=args.C,
@@ -122,22 +122,22 @@ def main():
     print("[INFO] Training SVM...")
     svm.fit(X_train, y_train)
 
-    # ---------- Print SVM Training Accuracy ----------
+    # Print SVM Training Accuracy
     y_train_pred_svm = svm.predict(X_train)
     train_acc_svm = accuracy_score(y_train, y_train_pred_svm)
     print(f"[TRAINING RESULT] SVM Training Accuracy: {train_acc_svm:.4f}")
 
-    # ---------- k-NN ----------
+    # k-NN
     knn = KNeighborsClassifier(n_neighbors=args.knn_neighbors)
     print("[INFO] Training k-NN...")
     knn.fit(X_train, y_train)
 
-    # ---------- Print k-NN Training Accuracy ----------
+    # Print k-NN Training Accuracy
     y_train_pred_knn = knn.predict(X_train)
     train_acc_knn = accuracy_score(y_train, y_train_pred_knn)
     print(f"[TRAINING RESULT] k-NN Training Accuracy: {train_acc_knn:.4f}")
 
-    # ---------- Validation ----------
+    # Validation
     y_pred_svm = svm.predict(X_val)
     acc_svm = accuracy_score(y_val, y_pred_svm)
     print(f"\n[RESULT] SVM Validation Accuracy: {acc_svm:.4f}\n")
