@@ -41,7 +41,7 @@ def clean_dataset(input_dir, output_dir=None, delete_corrupted=False):
     corrupted_list = []
     
     print(f"\n[INFO] Scanning dataset...")
-    print("="*60)
+    
     
     for cls in sorted(class_dirs):
         cls_input_path = os.path.join(input_dir, cls)
@@ -85,7 +85,7 @@ def clean_dataset(input_dir, output_dir=None, delete_corrupted=False):
         
         print(f"Class '{cls}': {cls_good} good, {cls_corrupted} corrupted")
     
-    print("="*60)
+    
     print(f"\n[SUMMARY]")
     print(f"Total images scanned: {total_images}")
     print(f"Good images: {good_images} ({good_images*100/total_images:.1f}%)")
@@ -122,18 +122,18 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
-    print("="*60)
+  
     print("DATASET CLEANING TOOL")
-    print("="*60)
+    
     
     good, corrupted = clean_dataset(args.dataset, args.output, args.delete)
     
     if corrupted > 0:
-        print(f"\n⚠️  You have {corrupted} corrupted images!")
+        print(f"  You have {corrupted} corrupted images!")
         print(f"   This may reduce accuracy by ~{corrupted*0.05:.1f}%")
-        print(f"\n💡 Recommendation:")
+        print(f" Recommendation:")
         if not args.output and not args.delete:
             print(f"   Run: python fix_dataset.py --dataset {args.dataset} --output dataset_clean")
             print(f"   Then train with: --dataset dataset_clean")
     else:
-        print("\n✓ All images are readable! Your dataset is clean.")
+        print(" All images are readable! Your dataset is clean.")

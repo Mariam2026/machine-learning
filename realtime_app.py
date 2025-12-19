@@ -6,7 +6,10 @@ import joblib
 import numpy as np
 from util import extract_features
 from rejection import svm_is_unknown_from_probs, knn_is_unknown_from_mean_dist
-
+"""
+command we use to run:
+python realtime_app.py --model models/svm2.joblib --scaler models/scaler2.joblib
+"""
 #  LABELS 
 LABELS = {
     0: 'Cardboard',
