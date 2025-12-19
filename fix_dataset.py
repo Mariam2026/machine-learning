@@ -1,12 +1,3 @@
-"""
-fix_dataset.py
-==============
-Identify and remove corrupted images from your dataset.
-Run this BEFORE training to clean your data.
-
-Usage:
-python fix_dataset.py --dataset dataset --output dataset_clean
-"""
 
 import os
 import shutil
@@ -15,26 +6,19 @@ import cv2
 from pathlib import Path
 
 def check_image(img_path):
-    """Check if image can be read properly."""
+    
     try:
         img = cv2.imread(img_path)
         if img is None:
             return False
-        # Try to get shape (this will fail for corrupted images)
+     
         _ = img.shape
         return True
     except Exception:
         return False
 
 def clean_dataset(input_dir, output_dir=None, delete_corrupted=False):
-    """
-    Scan dataset and either copy good images or delete bad ones.
-    
-    Args:
-        input_dir: Path to original dataset
-        output_dir: If provided, copy good images here. If None, delete bad images in place.
-        delete_corrupted: If True and output_dir is None, delete corrupted images from input_dir
-    """
+   
     
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
