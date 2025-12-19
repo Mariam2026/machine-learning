@@ -92,10 +92,10 @@ def clean_dataset(input_dir, output_dir=None, delete_corrupted=False):
     print(f"Corrupted images: {corrupted_images} ({corrupted_images*100/total_images:.1f}%)")
     
     if output_dir:
-        print(f"\n✓ Clean dataset saved to: {output_dir}")
-        print(f"  You can now train using: --dataset {output_dir}")
+        print(f"\nClean dataset saved to: {output_dir}")
+        print(f"You can now train using: --dataset {output_dir}")
     elif delete_corrupted:
-        print(f"\n✓ Corrupted images deleted from: {input_dir}")
+        print(f"\nCorrupted images deleted from: {input_dir}")
     else:
         print(f"\n[INFO] Found {corrupted_images} corrupted images.")
         print(f"[INFO] To remove them, run again with --delete flag")
@@ -129,11 +129,11 @@ if __name__ == '__main__':
     good, corrupted = clean_dataset(args.dataset, args.output, args.delete)
     
     if corrupted > 0:
-        print(f"  You have {corrupted} corrupted images!")
-        print(f"   This may reduce accuracy by ~{corrupted*0.05:.1f}%")
-        print(f" Recommendation:")
+        print(f" You have {corrupted} corrupted images! ")
+        print(f" This may reduce accuracy by ~{corrupted*0.05:.1f}%")
+        print(f" Recommendation: ")
         if not args.output and not args.delete:
-            print(f"   Run: python fix_dataset.py --dataset {args.dataset} --output dataset_clean")
-            print(f"   Then train with: --dataset dataset_clean")
+            print(f" Run: python fix_dataset.py --dataset {args.dataset} --output dataset_clean ")
+            print(f" Then train with: --dataset dataset_clean ")
     else:
-        print(" All images are readable! Your dataset is clean.")
+        print(" All images are readable! Your dataset is clean. ")
