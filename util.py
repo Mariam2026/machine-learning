@@ -61,7 +61,7 @@ def extract_features(image_path=None, img=None, resize_dim=(256, 256), augment=F
         feats.append(np.mean(channel))
         feats.append(np.var(channel))
 
-    #  ADDED: Shape features (glass / trash support) 
+    # Shape features (glass / trash support) 
 
     contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
